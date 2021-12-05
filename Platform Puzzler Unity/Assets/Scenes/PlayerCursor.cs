@@ -26,8 +26,8 @@ public class PlayerCursor : MonoBehaviour
             // check how long button is held for; above is PER FRAME call
             currHold += 0.1f;
             if(currHold >= holdTimer) { // if held timer is above the threshold; execute holding logic
-                Debug.Log(this.GetComponent<Collider>().isTrigger);
-                this.GetComponent<Collider>().isTrigger = false;
+                Debug.Log(this.GetComponent<Collider2D>().enabled);
+                this.GetComponent<Collider2D>().enabled = true;
                 this.GetComponent<Renderer>().material.color = dark_blue;
                 hold = true;
             }
@@ -41,7 +41,7 @@ public class PlayerCursor : MonoBehaviour
             // on release reset our variables and make the platform not collidable & light blue
             hold = false;
             currHold = 0.0f;
-            this.GetComponent<Collider>().isTrigger = true;
+            this.GetComponent<Collider2D>().enabled = false;
             this.GetComponent<Renderer>().material.color = light_blue;
         }
 
