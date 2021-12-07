@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SpikeBehavior : MonoBehaviour
 {
+    public string levelName;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,7 @@ public class SpikeBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(levelName);
         Debug.Log("Spike Restart");
     }
 }
