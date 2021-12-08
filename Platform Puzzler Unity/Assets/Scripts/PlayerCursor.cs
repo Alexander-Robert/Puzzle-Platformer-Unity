@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerCursor : MonoBehaviour
 {
     public float holdTimer = 8.0f; // 8 seems to be comfy enough 
+    public Grid tileset;
     private bool hold = false;
     private Vector4 light_blue = new Vector4(0.2f, 0.8f, 0.9f, 1f);
-    private Vector4 dark_blue = new Vector4(0.2f, 0.3f, 0.9f, 1f);
+    private Vector4 dark_blue = new Vector4(0.2f, 0.4f, 0.9f, 1f);
     private Vector3 mousePosition;
     private float currHold = 0.0f;
 
@@ -26,7 +27,9 @@ public class PlayerCursor : MonoBehaviour
             // check how long button is held for; above is PER FRAME call
             currHold += 0.1f;
             if(currHold >= holdTimer) { // if held timer is above the threshold; execute holding logic
-                Debug.Log(this.GetComponent<Collider2D>().enabled);
+                //Debug.Log(tileset.LocalToCell(transform.localPosition));
+                //Debug.Log(transform.localPosition);
+                SnapToGridPosition(1);
                 this.GetComponent<Collider2D>().enabled = true;
                 this.GetComponent<Renderer>().material.color = dark_blue;
                 hold = true;
@@ -52,6 +55,21 @@ public class PlayerCursor : MonoBehaviour
                 UnityEditor.EditorApplication.isPlaying = false;
             #endif
             Application.Quit();
+        }
+    }
+
+    // threshold is a temp variable similar to the holdtimer implemented above
+    // threshold calculates how close the user is to a certain tile on the map
+    // this *should* fix most cases where the player cursor is slightly above other platforms
+    // while trying to cover a gap
+    // TO DO: Smoother way to cross a gap?
+    void SnapToGridPosition(int threshold){
+        Vector3Int cellPos = tileset.LocalToCell(transform.localPosition);
+        Vector3 diffVector = cellPos - transform.localPosition;
+        // if the difference is small enough we snap the player cursor
+        if(diffVector.magnitude <= threshold && diffVector.magnitude >= -threshold){
+            Debug.Log("Snapped Player");
+            transform.localPosition = tileset.GetCellCenterLocal(cellPos);
         }
     }
 }
