@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCursor : MonoBehaviour
 {
-    public float holdTimer = 8.0f; // 8 seems to be comfy enough 
+    public float holdTimer = 2.0f; // 8-10 seems to be comfy for editor | BUILD: needs to be about 2 
     public Grid tileset;
     private bool hold = false;
     private Vector4 light_blue = new Vector4(0.2f, 0.8f, 0.9f, 1f);
