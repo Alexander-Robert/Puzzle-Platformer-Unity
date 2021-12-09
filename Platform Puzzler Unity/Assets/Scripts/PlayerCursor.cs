@@ -29,7 +29,7 @@ public class PlayerCursor : MonoBehaviour
             if(currHold >= holdTimer) { // if held timer is above the threshold; execute holding logic
                 //Debug.Log(tileset.LocalToCell(transform.localPosition));
                 //Debug.Log(transform.localPosition);
-                SnapToGridPosition(1);
+                SnapToGridPosition(0.5f);
                 this.GetComponent<Collider2D>().enabled = true;
                 this.GetComponent<Renderer>().material.color = dark_blue;
                 hold = true;
@@ -63,11 +63,11 @@ public class PlayerCursor : MonoBehaviour
     // this *should* fix most cases where the player cursor is slightly above other platforms
     // while trying to cover a gap
     // TO DO: Smoother way to cross a gap?
-    void SnapToGridPosition(int threshold){
+    void SnapToGridPosition(float threshold){
         Vector3Int cellPos = tileset.LocalToCell(transform.localPosition);
         Vector3 diffVector = cellPos - transform.localPosition;
         // if the difference is small enough we snap the player cursor
-        if(diffVector.magnitude <= threshold && diffVector.magnitude >= -threshold){
+        if(diffVector.magnitude < threshold && diffVector.magnitude > -threshold){
             Debug.Log("Snapped Player");
             transform.localPosition = tileset.GetCellCenterLocal(cellPos);
         }
